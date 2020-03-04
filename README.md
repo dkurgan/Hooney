@@ -1,6 +1,6 @@
 # Instagram-type social network "Hooney"
 Still in work
-* Used: MERN Stack (React, Redux, MongoAtlas, Nodejs)
+* Used: MERN Stack (MongoAtlas, Express, React, Redux, Nodejs)
 * Ui: SemanticUi and MaterializeCss
 
 ## 'npm install'
