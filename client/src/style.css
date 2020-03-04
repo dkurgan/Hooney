@@ -1,0 +1,59 @@
+/* Global Styles */
+:root {
+  --dark-color: rgb(255, 193, 7);
+  --light-color: #f4f4f4;
+  --danger-color: #dc3545;
+  --success-color: #149431;
+}
+
+body {
+  font-family: 'Raleway', sans-serif;
+  background-color: #f2f2ef;
+}
+
+a {
+  color: var(--primary-color);
+  cursor: pointer
+}
+
+.bg-dark {
+  background: var(--dark-color);
+  color: #fff;
+}
+
+/* Navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.7rem 2rem;
+  position: fixed;
+  z-index: 1;
+  width: 100%;
+  top: 0;
+  border-bottom: solid 1px var(--primary-color);
+  border-bottom-left-radius: 50px;
+  border-bottom-right-radius: 50px;
+  opacity: 0.9;
+}
+
+.navbar .welcome span {
+  margin-right: 0.6rem;
+}
+.nav ul a{
+  padding: 0 8px;
+}
+
+.width{
+  min-width: 70%
+}
+.commentWidth{
+  min-width: 100%
+}
+.chooseCard h1{
+  font-size: 50px;
+}
+
+#closeX{
+  color: red
+}
