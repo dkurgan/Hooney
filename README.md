@@ -1,10 +1,10 @@
-## Instagram-type social network
+# Instagram-type social network "Hooney"
 Still in work
 * Used: MERN Stack (React, Redux, MongoAtlas, Nodejs)
 * Ui: SemanticUi and MaterializeCss
 
-# 'npm install'
+## 'npm install'
 To install all node modules
 
-# 'npm run dev'
+## 'npm run dev'
 In server folder to run bouth servers
