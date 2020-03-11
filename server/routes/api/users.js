@@ -5,8 +5,6 @@ const jwt = require('jsonwebtoken');
 const auth = require('../../middleware/auth');
 const config = require('config');
 const mailgun = require("mailgun-js");
-const DOMAIN = "sandbox97f0e9b8205e478481f7b9e2e5dae7d6.mailgun.org";
-const mg = mailgun({ apiKey: "8da4bff37c360ef2c46bd022079f0d5b-c322068c-788e05da", domain: DOMAIN });
 const {
     check,
     validationResult
