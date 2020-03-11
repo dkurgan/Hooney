@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-
+import {Link} from 'react-router-dom'
 import logo from '../../honey.png';
 import api from '../../api';
 import { registerUser } from '../../actions/user'
@@ -16,7 +16,8 @@ class Register extends React.Component {
             email: this.state.email,
             name: this.state.name
         });
-        this.props.registerUser(res.data.token);
+        await this.props.registerUser(res.data.token);
+        window.location = '/';
     }
     render() {
         return (
@@ -45,6 +46,9 @@ class Register extends React.Component {
                                 <button className='ui button' >Register</button>
                             </form>
                         </div>
+                    </div>
+                    <div>
+                        <p>Already have account? <Link to='login'>Sign In</Link></p>
                     </div>
                 </div>
             </div>

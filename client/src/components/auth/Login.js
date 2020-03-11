@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import {Link} from 'react-router-dom';
 
 import api from '../../api';
 import '../../style.css';
@@ -36,6 +37,10 @@ class Login extends React.Component{
             </form>
           </div>
           </div>
+          </div>
+          <div className="ui center aligned grid links">
+              <Link to='register'>Register</Link>
+              <Link to="resetpassword">Reset Password</Link>
           </div>
           </div>
         )

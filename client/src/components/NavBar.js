@@ -9,7 +9,7 @@ class NavBar extends React.Component{
  userAuthinated = () => {
     return(
     <ul>
-      <li><Link to="/choose">Add Post</Link></li>
+      <li><Link to="/campage">Add Post</Link></li>
       <li><Link to={`/settings`}>Settings</Link></li>
       <li><Link to="/" onClick={async()=> await this.props.logOut()}>Logout</Link></li>
     </ul>

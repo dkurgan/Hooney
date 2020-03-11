@@ -1,31 +1,24 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { getPost, deleteComment, postCom } from "../../actions/posts";
+import { getPost, deleteComment, postCom, deletePost } from "../../actions/posts";
 import { getUser } from "../../actions/user";
 import Moment from "react-moment";
 
 class Post extends React.Component {
   async componentDidMount() {
     await this.props.getUser();
+    console.log("tut")
     await this.props.getPost(this.props.match.params.id);
   }
-  postComment = (event, comment_id) =>{
+  postComment = (event, comment_id) => {
     event.preventDefault();
     this.props.postCom(comment_id, this.state.comment);
     document.getElementById(comment_id).reset();
-}
-  isAuth() {
-    return (
-      <input
-        type="text"
-        placeholder="Add Comment..."
-        onChange={e => this.setState({ comment: e.target.value })}
-      />
-    );
-  }
-  isGuest() {
-    return <input placeholder="Please authorize" readOnly type="text"></input>;
+  };
+  delPost = (id) => {
+    this.props.deletePost(id);
+    setTimeout(()=> window.location = '/', 1000);
   }
   render() {
     const { post, deleteComment, user } = this.props;
@@ -43,10 +36,12 @@ class Post extends React.Component {
                   {comment.name}
                 </Link>
                 <div className="metadata">
-                  <div className="date"><Moment fromNow>{comment.date}</Moment></div>
+                  <div className="date">
+                    <Moment fromNow>{comment.date}</Moment>
+                  </div>
                 </div>
                 <span className="right floated">
-                  {user.user._id === comment.user ? (
+                  {user._id === comment.user ? (
                     <i
                       id="closeX"
                       className="close icon"
@@ -64,10 +59,19 @@ class Post extends React.Component {
       });
     }
     return (
-      <div key={post._id} className="container" style={{ marginTop: 80 }}>
+      this.props.isAuth ?
+      (<div key={post._id} className="container" style={{ marginTop: 80 }}>
         <div className="ui centered card width">
           <div className="content">
-            <div className="right floated meta"><Moment fromNow>{post.date}</Moment></div>
+            <div className="right floated meta">
+              <Moment fromNow>{post.date}</Moment>
+            </div>
+            <div className="right floated">
+            {post.user === user._id ? <div className="right floated">
+            <i id="closeX" className="close icon"
+            onClick={() => this.delPost(post._id)}></i>
+            </div> : null}
+            </div>
             <img
               alt={post.name}
               className="ui avatar image"
@@ -90,12 +94,18 @@ class Post extends React.Component {
               className="ui large transparent left icon input"
               onSubmit={event => this.postComment(event, post._id)}
             >
-              {this.props.isAuthincated ? this.isAuth() : this.isGuest()}
+              <input
+                type="text"
+                placeholder="Add Comment..."
+                onChange={e => this.setState({ comment: e.target.value })}
+              />
               <i className="comment outline icon"></i>
             </form>
           </div>
         </div>
-      </div>
+      </div>) : <div  className="center aligned" style={{marginTop: 150}}>
+      <h1>Please authorize to see comments</h1>
+    </div>
     );
   }
 }
@@ -105,8 +115,14 @@ const mapStateToProps = state => {
   return {
     post: state.posts.post,
     user: state.profile.current,
-    isAuthincated: state.user.token
+    isAuth: state.user.token
   };
 };
 
-export default connect(mapStateToProps, { getPost, deleteComment, getUser, postCom })(Post);
+export default connect(mapStateToProps, {
+  getPost,
+  deleteComment,
+  getUser,
+  postCom,
+  deletePost
+})(Post);

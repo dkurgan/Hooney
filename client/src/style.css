@@ -1,6 +1,6 @@
 /* Global Styles */
 :root {
-  --dark-color: rgb(255, 193, 7);
+  --dark-color: #3C72AA;
   --light-color: #f4f4f4;
   --danger-color: #dc3545;
   --success-color: #149431;
@@ -11,14 +11,23 @@ body {
   background-color: #f2f2ef;
 }
 
-a {
-  color: var(--primary-color);
+/* a {
+  color: var(--light-color);
   cursor: pointer
+} */
+a:hover{
+  color: #A5DFEA;
 }
-
+input:focus{
+  border-bottom: 1px solid #3C72AA !important;
+  box-shadow: 0 1px 0 0 #3C72AA !important;
+}
+button:hover{
+  background-color: var(--dark-color) !important;
+  color: white !important;
+}
 .bg-dark {
-  background: var(--dark-color);
-  color: #fff;
+  background: #3C72AA;
 }
 
 /* Navbar */
@@ -47,13 +56,46 @@ a {
 .width{
   min-width: 70%
 }
+.comment{
+  color: #3C72AA;
+}
 .commentWidth{
   min-width: 100%
 }
 .chooseCard h1{
   font-size: 50px;
 }
-
+i.icon.camera{
+  width: 1 !important;
+  margin: 0 !important;
+}
+.photoBtn{
+  background-color: lightgray;
+  border-radius: 50%;
+  z-index: 1;
+  margin-top: -80px;
+}
+.footer{
+  overflow: hidden;
+  color: white;
+  background-color: var(--dark-color);
+  font-size: .9rem;
+  font-family: "Roboto",sans-serif;
+  width:40%;
+  border-bottom-left-radius: 60px;
+  border-bottom-right-radius: 60px
+}
+/* input[type="file"] {
+  display: none;
+} */
 #closeX{
   color: red
+}
+#contentContainer {
+  width: 640px;
+  height: 150px;
+  border: 2px black solid;
+  overflow: hidden;
+  background-color: #F2F2F2;
+  cursor: pointer;
 }

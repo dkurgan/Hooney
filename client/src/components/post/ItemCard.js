@@ -28,6 +28,16 @@ class ItemCard extends React.Component{
             <input placeholder="Please authorize" readOnly type="text"></input>
         )
     }
+    isYes(id){
+        return(
+            <Link to={`/post/${id}`}><i className="comment icon"></i></Link>
+        )
+    }
+    isNo(){
+        return(
+            <i className="comment icon"></i>
+        )
+    }
     render(){
         let image = this.props.items.sort((a, b)=>{
             if (a.date > b.date) return -1;
@@ -49,7 +59,7 @@ class ItemCard extends React.Component{
                             <i className="heart outline like icon" onClick={(e)=> this.likeDislike(e, item._id)}></i>
                             {item.likes.length}
                         </span>
-                   <Link to={`/post/${item._id}`}><i className="comment icon"></i></Link>
+                        {this.props.isAuthincated ? this.isYes(item._id) : this.isNo()}
                      {item.comments.length}
                     </div>
                 <div className="extra content">

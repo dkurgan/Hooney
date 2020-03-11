@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import logo from "../../honey.png";
 import api from "../../api";
-import { getUser } from "../../actions/user";
+import { getUser, deleteUser } from "../../actions/user";
 
 class Settings extends React.Component {
   state = { email: null, passwordNew: null, passwordOld: null };
@@ -25,10 +25,12 @@ class Settings extends React.Component {
         }
       }
     );
+    setTimeout(()=> window.location='/', 3000);
   };
   render() {
-    return (
-      <div className="container" style={{ marginTop: 150 }}>
+    const {deleteUser, token} = this.props;
+    return ( token ?
+     ( <div className="container" style={{ marginTop: 150 }}>
         <div className="ui one column stackable center aligned page grid">
           <div className="column twelve wide">
             <img alt="hooney_logo" src={logo} style={{ maxWidth: 80 }} />
@@ -45,6 +47,7 @@ class Settings extends React.Component {
                     <input
                       type="password"
                       placeholder="Old Password is required"
+                      required
                       onChange={e =>
                         this.setState({ passwordOld: e.target.value })
                       }
@@ -64,10 +67,13 @@ class Settings extends React.Component {
                 </div>
                 <button className="ui button">Update</button>
               </form>
+                  <div>
+                    <button className="ui button red" onClick={(e)=> {deleteUser(token)}}>Delete Account</button>
+                </div>
             </div>
           </div>
         </div>
-      </div>
+      </div>) : (<div><h1 style={{marginTop: 150}}>Sorry u cannot acces this page</h1> {setTimeout(()=> window.location='/', 5000)}</div>)
     );
   }
 }
@@ -75,8 +81,8 @@ class Settings extends React.Component {
 const mapStateToProps = state => {
   return {
     token: state.user.token,
-    user: state.profile.current.user
+    user: state.profile.current
   };
 };
 
-export default connect(mapStateToProps, { getUser })(Settings);
+export default connect(mapStateToProps, { getUser, deleteUser })(Settings);

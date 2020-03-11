@@ -13,7 +13,6 @@ module.exports = function (req, res, next) {
     //verify token
     try {
         const decoded = jwt.verify(token, config.get('jwtSecret'));
-
         req.user = decoded.user;
         //to use next method after token check
         next();

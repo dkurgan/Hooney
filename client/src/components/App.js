@@ -4,10 +4,14 @@ import {BrowserRouter , Switch, Route} from 'react-router-dom';
 import NavBar from './NavBar';
 import ItemCard from './post/ItemCard';
 import Post from './post/Post';
-import Login from './layouts/Login';
-import Register from './layouts/Register';
+import Login from './auth/Login';
+import Register from './auth/Register';
 import Settings from './layouts/Settings'
-import Choose from './layouts/Choose';
+import Campage from './layouts/Campage';
+import Verify from './auth/Verify'
+import { Footer } from './layouts/Footer';
+import ResetPassword from './auth/ResetPassword';
+import UpdatePassword from './auth/UpdatePassword';
 
 class App extends React.Component{
     render(){
@@ -21,9 +25,13 @@ class App extends React.Component{
                 <Route excat path='/register' component={Register} />
                 <Route excat path='/post/:id' component={Post} />
                 <Route excat path='/settings' component={Settings} />
-                <Route excat path='/choose' component={Choose}/>
+                <Route excat path='/campage' component={Campage}/>
+                <Route exact path='/verify/:token' component={Verify} />
+                <Route excat path='/resetpassword' component={ResetPassword} />
+                <Route exact path='/reset/:id' component={UpdatePassword} />
             </Switch>
             </div>
+            <Footer/>
             </BrowserRouter>
         )
     }
