@@ -6,8 +6,11 @@ const auth = require('../../middleware/auth');
 const config = require('config');
 //mailgun
 const mailgun = require("mailgun-js");
+<<<<<<< HEAD
 const DOMAIN = process.env.DOMAIN;
 const mg = mailgun({ apiKey: process.env.MAIL_KEY, domain: DOMAIN });
+=======
+>>>>>>> 6960da59bc5f1b0feb98d58721ff9705f415d2a3
 const {
     check,
     validationResult
@@ -166,4 +169,10 @@ router.patch('/reset', async(req,res)=>{
     }
 })
 
+<<<<<<< HEAD
 module.exports = router;
+=======
+
+
+module.exports = router;
+>>>>>>> 6960da59bc5f1b0feb98d58721ff9705f415d2a3
