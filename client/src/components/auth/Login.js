@@ -2,29 +2,28 @@ import React from 'react';
 import { connect } from 'react-redux';
 import {Link} from 'react-router-dom';
 
-import api from '../../api';
 import '../../style.css';
-import  logo from '../../honey.png';
-import { loginUser}from '../../actions/user';
+import {Honey} from '../../img';
+import { loginUser, authUser}from '../../actions/user';
+import Alert from '../layouts/Alert';
 
 class Login extends React.Component{    
     state = {email: null, password: null};
 //Auth user and save token to local storage
     handleSubmit = async(event) =>{
         event.preventDefault();
-        const res = await api.post('/auth', {
-            password: this.state.password,
-            email: this.state.email
-        });
-        this.props.loginUser(res.data.token);
-        window.location = '/';
+        await this.props.authUser(this.state.email, this.state.password);
+        if (this.props.alert.length < 1){
+            window.location = '/'
+        }
       }
-    render(){
+    render() {
+        const { alert } = this.props
         return(
             <div className="container" style={{marginTop: 150}}>
             <div className="ui one column stackable center aligned page grid">
             <div className="column twelve wide">
-                <img alt="hooney_logo" src={logo} style={{maxWidth:80}}/>
+                <img alt="hooney_logo" src={Honey} style={{maxWidth:80}}/>
                 <div className="row">
                 <form className="input-field" onSubmit={this.handleSubmit}>
                         <input type="email"  placeholder="Email" onChange={(e)=> this.setState({email: e.target.value})}/>
@@ -34,9 +33,10 @@ class Login extends React.Component{
                         </div>
                     </div>
                 <button className='ui button' >Log in</button>
-            </form>
-          </div>
-          </div>
+                            </form>
+                            {alert ? <Alert /> : null}
+                        </div>
+                    </div>
           </div>
           <div className="ui center aligned grid links">
               <Link to='register'>Register</Link>
@@ -48,6 +48,9 @@ class Login extends React.Component{
 }
 
 const mapStateToProps = state =>{
-    return {token: state.token}
+    return {
+        token: state.token,
+        alert: state.alert
+    }
 }
-export default connect(mapStateToProps, {loginUser})(Login)
+export default connect(mapStateToProps, {loginUser, authUser})(Login)

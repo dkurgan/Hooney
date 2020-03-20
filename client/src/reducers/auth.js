@@ -8,10 +8,9 @@ const initState = {
 
 const authReducer = (state = initState, action) => {
     const { type, token } = action;
+    console.log(token)
     switch (type) {
         case LOGIN_USER: {
-            localStorage.setItem('Token', token);
-            console.log('user is authorized');
             return { ...state, token, isAuthincated: true };
         }
         case LOGOUT_USER: {

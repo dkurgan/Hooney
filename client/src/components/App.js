@@ -6,19 +6,20 @@ import ItemCard from './post/ItemCard';
 import Post from './post/Post';
 import Login from './auth/Login';
 import Register from './auth/Register';
-import Settings from './layouts/Settings'
+import Settings from './auth/Settings'
 import Campage from './layouts/Campage';
 import Verify from './auth/Verify'
 import { Footer } from './layouts/Footer';
 import ResetPassword from './auth/ResetPassword';
 import UpdatePassword from './auth/UpdatePassword';
+import Alerts from './layouts/Alert'
 
 class App extends React.Component{
     render(){
         return(
             <BrowserRouter>
             <NavBar />
-            <div className="container">
+                <div className="container">
             <Switch>
                 <Route exact path='/' component={ItemCard}/>
                 <Route exact path='/login' component={Login} />

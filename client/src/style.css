@@ -85,15 +85,20 @@ i.icon.camera{
   border-bottom-left-radius: 60px;
   border-bottom-right-radius: 60px
 }
+.stickers{
+  width: 70px;
+  margin: 7px;
+}
 /* input[type="file"] {
   display: none;
 } */
+
 #closeX{
   color: red
 }
 #contentContainer {
   width: 640px;
-  height: 150px;
+  height: 100px;
   border: 2px black solid;
   overflow: hidden;
   background-color: #F2F2F2;

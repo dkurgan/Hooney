@@ -4,9 +4,10 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const auth = require('../../middleware/auth');
 const config = require('config');
+//mailgun
 const mailgun = require("mailgun-js");
-const DOMAIN = "sandbox97f0e9b8205e478481f7b9e2e5dae7d6.mailgun.org";
-const mg = mailgun({ apiKey: "8da4bff37c360ef2c46bd022079f0d5b-c322068c-788e05da", domain: DOMAIN });
+const DOMAIN = process.env.DOMAIN;
+const mg = mailgun({ apiKey: process.env.MAIL_KEY, domain: DOMAIN });
 const {
     check,
     validationResult
@@ -43,7 +44,6 @@ router.post('/', [
             const salt = await bcrypt.genSalt(10);
             user.password = await bcrypt.hash(password, salt);
             await user.save();
-            console.log(user, "Saved");
             // Return jsonwebtoken
             const payload = { user: { id: user.id } };
                //send Email veritification
@@ -51,10 +51,10 @@ router.post('/', [
                 from: "Camagru no-reply <postmaster@sandbox97f0e9b8205e478481f7b9e2e5dae7d6.mailgun.org>",
                 to: email,
                 subject: "Confirmation",
-                html: `Click on the link to verify your account <a href="http://localhost:3000/verify/${user.id}">Click</a>`
+                html: `Click on the link to verify your account <a href="http://hooney.herokuapp.com//verify/${user.id}">Click</a>`
             };
             mg.messages().send(data, (error, body) => {
-                console.log(body);
+                console.log(body, "message sent");
             });
             //Create Token for user
             jwt.sign(
@@ -75,18 +75,20 @@ router.post('/', [
         }
     });
 
-//Update current User password/email
+//Update current User password/email/notifications
 router.patch('/update', auth, [
     check('passwordOld', "Old pasword is requred").isLength({ min: 6 })
 ], async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return res.status(400).json({ msg: "Invalid credationals" });
+        return res.status(400).json({ msg: "Invalid password or login" });
     }
     try {
         const { email,
             passwordOld,
-            passwordNew } = req.body;
+            passwordNew,
+            notifications
+        } = req.body;
         const user = await User.findById(req.user.id);
         const isMatch = await bcrypt.compare(passwordOld, user.password);
         if (isMatch) {
@@ -94,9 +96,8 @@ router.patch('/update', auth, [
                 const salt = await bcrypt.genSalt(10);
                 user.password = await bcrypt.hash(passwordNew, salt);
             }
-            if (email) {
-                user.email = email;
-            }
+            if (email) { user.email = email; }
+            user.notifications = notifications
             await user.save();
             res.status(200).json({ msg: "User updated successfully" });
         } else
@@ -164,7 +165,5 @@ router.patch('/reset', async(req,res)=>{
         res.status(500).json({msg: "Server died"});
     }
 })
-
-
 
 module.exports = router;

@@ -13,7 +13,9 @@ class Post extends React.Component {
   }
   postComment = (event, comment_id) => {
     event.preventDefault();
-    this.props.postCom(comment_id, this.state.comment);
+    if (comment_id > 0) {
+      this.props.postCom(comment_id, this.state.comment);
+    }
     document.getElementById(comment_id).reset();
   };
   delPost = (id) => {

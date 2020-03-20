@@ -5,3 +5,5 @@ export const GET_POST = 'GET_POST';
 export const GET_ME = 'GET_ME';
 export const GET_ALL = 'GET_ALL';
 export const LOAD_USER = 'LOAD_USER';
+export const ADD_ALERT = 'ADD_ALERT';
+export const REMOVE_ALERT = 'REMOVE_ALERT';

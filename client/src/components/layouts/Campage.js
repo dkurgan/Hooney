@@ -1,24 +1,28 @@
 import React from "react";
 import Webcam from "react-webcam";
 import {connect} from 'react-redux';
-import {createPost} from '../../actions/posts';
 import StickerBar from './StickerBar'
+import Canvas from "./Canvas";
+let stickerArr = [];
 
 class Choose extends React.Component {
-  state = { imageData: null, fileInput:  React.createRef() };
+  state = { imageData: null, fileInput: React.createRef(), stickers: [] };
   setRef = webcam => {
     this.webcam = webcam;
   };
   capturePhoto = async () => {
-    this.setState({ imageData: await this.webcam.getScreenshot()});
-    console.log(this.state.imageData);
+    this.setState({ imageData: await this.webcam.getScreenshot() });
   };
-  waitCapture = () =>{
-    setTimeout(async()=> this.setState({ imageData: await this.webcam.getScreenshot()}), 3000);
+  waitCapture = () => {
+    setTimeout(async () => this.setState({ imageData: await this.webcam.getScreenshot() }), 3000);
   }
   deletePhoto = () => {
-    this.setState({ imageData: null });
+    this.setState({ imageData: null, stickers: [] });
   };
+  updateSticker = (id, path) => {
+    if (this.imageData === undefined)
+    this.setState({stickers: [...this.state.stickers, {id, path, pos:{x: 0, y:0}}]});
+  }
   render() {
     const videoConstraints = {
       width: 640,
@@ -29,15 +33,9 @@ class Choose extends React.Component {
       this.props.isAuth ?
       (<div style={{ marginTop: 100 }}>
         {this.state.imageData ? (
-          <div className="ui center aligned grid ">
-            <div className="sixteen wide column">
-              <img src={this.state.imageData} />
-            </div>
-            <div className="content">
-              <button className="btn" onClick={() => {this.props.createPost(this.state.imageData);
-              window.location ='/'}} >Post</button>
-              <button className="btn" onClick={this.deletePhoto}>Delete</button>
-            </div>
+          <div className="ui center aligned grid">
+              <Canvas updCanvas={this.updateCanvas} cleanCanvas={this.deletePhoto}
+              stickerArray={this.state.stickers} image={this.state.imageData} />
           </div>
         ) : (
           <div className="ui center aligned grid ">
@@ -54,7 +52,7 @@ class Choose extends React.Component {
             </button>
           </div>
         )}
-        <StickerBar/>
+        <StickerBar selectedSticker={this.updateSticker}/>
       </div>
     ) : <div  className="center aligned" style={{marginTop: 150}}>
       <h1>Please authorize to use camera</h1>
@@ -69,4 +67,4 @@ const mapStateToProps = state =>{
     }
 }
 
-export default connect(mapStateToProps,{createPost})(Choose)
+export default connect(mapStateToProps)(Choose)

@@ -30,7 +30,7 @@ router.post('/', [
     async (req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return res.status(400).json({ msg: "Invalid credationals" });
+            return res.status(400).json({ msg: "Check Login or Password" });
         }
         const { name, email, password } = req.body;
         try {

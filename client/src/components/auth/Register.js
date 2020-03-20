@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import {Link} from 'react-router-dom'
-import logo from '../../honey.png';
+import {Honey} from '../../img';
 import api from '../../api';
 import { registerUser } from '../../actions/user'
 
@@ -24,7 +24,7 @@ class Register extends React.Component {
             <div className="container" style={{ marginTop: 150 }}>
                 <div className="ui one column stackable center aligned page grid">
                     <div className="column twelve wide">
-                        <img alt="hooney_logo" src={logo} style={{ maxWidth: 80 }} />
+                        <img alt="hooney_logo" src={Honey} style={{ maxWidth: 80 }} />
                         <div className="row">
                             <form onSubmit={this.handleSubmit}>
                                 <div className="input-field">

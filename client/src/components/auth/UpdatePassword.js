@@ -1,6 +1,6 @@
 import React from "react";
 import {connect} from 'react-redux';
-import logo from '../../honey.png'
+import {Honey} from '../../img';
 import { patchPassword } from '../../actions/user';
 
 
@@ -16,7 +16,7 @@ class PatchPassword extends React.Component {
       (<div className="container" style={{ marginTop: 150 }}>
         <div className="ui one column stackable center aligned page grid">
           <div className="column twelve wide">
-            <img alt="hooney_logo" src={logo} style={{ maxWidth: 80 }} />
+            <img alt="hooney_logo" src={Honey} style={{ maxWidth: 80 }} />
             <h3>Welcome back!Type new password here!</h3>
             <div className="row">
               <form className="input-field" onSubmit={this.handleSubmit}>

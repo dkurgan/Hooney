@@ -2,6 +2,10 @@ const express = require('express');
 const router = express();
 const fs = require('fs');
 const { check, validationResult } = require('express-validator');
+//mailgun
+const mailgun = require("mailgun-js");
+const DOMAIN = process.env.DOMAIN;
+const mg = mailgun({ apiKey: process.env.MAIL_KEY, domain: DOMAIN });
 
 const auth = require('../../middleware/auth.js');
 const Post = require('../../models/Posts');
@@ -16,7 +20,7 @@ router.post('/', auth, async (req, res) => {
     }
     try {
         const user = await User.findById(req.user.id).select('-password');
-        const base64Data = req.body.base64.replace(/^data:image\/jpeg;base64,/, "");
+        const base64Data = req.body.base64.replace(/^data:image\/png;base64,/, "");
         const filePath = `uploads/posts/${user.name}-${new Date().toISOString()}.jpeg`;
         fs.writeFile(filePath, base64Data, 'base64', function (err) {
             if (err) {
@@ -112,10 +116,8 @@ router.post('/comment/:id', auth, [
         if (!errors.isEmpty()) {
             return res.status(400).json({ msg: "Text is required" });
         }
-
         try {
             let user = await User.findById(req.user.id).select('-password');
-
             const newComment = {
                 user: req.user.id,
                 text: req.body.text,
@@ -123,13 +125,22 @@ router.post('/comment/:id', auth, [
                 imageAvatar: user.imageAvatar
             }
             const post = await Post.findById(req.params.id);
-
             if (!post) {
                 return res.status(400).json({ msg: "Looks like post has been deleted" });
             }
-
             post.comments.unshift(newComment);
-
+            user = await User.findById(post.user).select('-password')
+            if (user.notifications === true) {
+                const data = {
+                    from: "Camagru no-reply <postmaster@sandbox97f0e9b8205e478481f7b9e2e5dae7d6.mailgun.org>",
+                    to: user.email,
+                    subject: "New comment",
+                    html: `You got new comment on this <a href="http://hooney.herokuapp.com/post/${req.params.id}">Post</a>`
+                };
+                mg.messages().send(data, (error, body) => {
+                    console.log(body, "message sent");
+                });
+            }
             await post.save();
             res.json(post.comments);
         } catch (error) {
@@ -157,7 +168,6 @@ router.delete('/comment/:id/:comment_id', auth, async (req, res) => {
         removeIndex = removeIndex.indexOf(req.params.comment_id)
         post.comments.splice(removeIndex, 1);
         await post.save();
-
         res.json(post.comments);
     } catch (error) {
         return res.status(500).json({ msg: "Server tired" });
