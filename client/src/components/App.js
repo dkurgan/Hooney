@@ -1,5 +1,5 @@
 import React from 'react';
-import {BrowserRouter , Switch, Route} from 'react-router-dom';
+import {BrowserRouter , Switch, Route, HashRouter} from 'react-router-dom';
 
 import NavBar from './NavBar';
 import ItemCard from './post/ItemCard';
@@ -12,12 +12,11 @@ import Verify from './auth/Verify'
 import { Footer } from './layouts/Footer';
 import ResetPassword from './auth/ResetPassword';
 import UpdatePassword from './auth/UpdatePassword';
-import Alerts from './layouts/Alert'
 
 class App extends React.Component{
     render(){
         return(
-            <BrowserRouter>
+            <HashRouter>
             <NavBar />
                 <div className="container">
             <Switch>
@@ -33,7 +32,7 @@ class App extends React.Component{
             </Switch>
             </div>
             <Footer/>
-            </BrowserRouter>
+            </HashRouter>
         )
     }
 }

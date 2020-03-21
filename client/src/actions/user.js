@@ -52,6 +52,18 @@ export const logOut = () => {
     }
 }
 
+export const regUser = (email, name, password) => async dispatch =>{
+    try {
+        const res = await api.post('/users', {
+            password, email, name
+        });
+        dispatch({
+            type: LOGIN_USER,
+            token: res.data.token
+        })
+    } catch (err) {dispatch(setAlert(err.response.data.msg, 'red'));}
+}
+
 export const registerUser = (token) => {
     localStorage.setItem('Token', token);
     return {
@@ -64,17 +76,10 @@ export const registerUser = (token) => {
 export const updUser = (email, passwordOld, passwordNew, notifications) => async (dispatch, getState) => {
     try {
         const res = await api.patch("/users/update",{
-            email, passwordOld, passwordNew, notifications
-          },{
-            headers: { "x-auth-token": getState().user.token }
-          }
-        );
-        if (res.data) {
-            dispatch(setAlert("User updated", 'green'));
-        }
-        dispatch({
-            type: LOGIN_USER
-        })
+        email, passwordOld, passwordNew, notifications},
+            { headers: { "x-auth-token": getState().user.token } });
+        if (res.data) {dispatch(setAlert("User updated", 'green'));}
+        dispatch({type: LOGIN_USER})
     } catch (err) {
         console.log(err.response.data.msg)
             dispatch(setAlert(err.response.data.msg, 'red'));
@@ -90,10 +95,11 @@ export const checkVerify = (token) => async (dispatch, getState)=>{
 }
 
 export const resetPassword = (email) => async dispatch =>{
-    await api.post('/users/reset', {email});
-    dispatch({
-        type: null
-    })
+    try {await api.post('/users/reset', {email});
+    dispatch(setAlert("Please check your email", 'green'));
+    } catch (err) {
+        dispatch(setAlert(err.response.data.msg, 'red'));
+    }
 }
 
 export const patchPassword = (id, password) => async dispatch =>{

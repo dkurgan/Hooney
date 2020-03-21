@@ -1,5 +1,4 @@
 const express = require('express');
-const config = require('config');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
@@ -45,7 +44,7 @@ router.post('/', [
             }
             const payload = { user: { id: user.id } }
             jwt.sign(payload,
-                config.get('jwtSecret'), {
+                process.env.jwtSecret, {
                 expiresIn: 360000
             }, (err, token) => {
                 if (err) throw err
@@ -64,7 +63,7 @@ router.post('/verify', async (req, res) => {
     if (!user) { res.status(404).json({ msg: "Cannot get user" }) }
     await User.findByIdAndUpdate(user.id, { isVerify: true }, { new: true });
     const payload = { user: { id: user.id } };
-    jwt.sign(payload, config.get('jwtSecret'), { expiresIn: 3600000 },
+    jwt.sign(payload, process.env.jwtSecret, { expiresIn: 3600000 },
         (err, token) => { if (err) throw err; res.json({ token }); });
 })
 

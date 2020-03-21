@@ -3,12 +3,14 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import {Honey} from '../../img';
 import { resetPassword } from "../../actions/user";
+import Alert from "../layouts/Alert";
 
 class ResetPassword extends React.Component {
   state = { email: null };
   handleSubmit = async e => {
     e.preventDefault();
     await this.props.resetPassword(this.state.email);
+    document.getElementById("userEmail").reset();
   };
   render() {
     return (
@@ -21,12 +23,14 @@ class ResetPassword extends React.Component {
               <form className="input-field" onSubmit={this.handleSubmit}>
                 <input
                   type="email"
+                  id="userEmail"
                   placeholder="Type Email here"
                   onChange={e => this.setState({ email: e.target.value })}
                   required
                 />
                 <button className="ui button">Reset</button>
               </form>
+              {alert ? <Alert /> : null}
             </div>
           </div>
           <div>
@@ -42,7 +46,8 @@ class ResetPassword extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    token: state.token
+    token: state.token,
+    alert: state.alert
   };
 };
 

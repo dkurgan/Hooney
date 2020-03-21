@@ -31,7 +31,7 @@ class Post extends React.Component {
           <div key={comment._id} className="ui comments">
             <div className="comment">
               <Link to={`/profile/${post.user}`} className="avatar">
-                <img src={"http://localhost:4000/" + comment.imageAvatar} />
+                <img src={"https://hooney.herokuapp.com/" + comment.imageAvatar} />
               </Link>
               <div className="content">
                 <Link to={`/profile/${post.user}`} className="author">
@@ -77,14 +77,14 @@ class Post extends React.Component {
             <img
               alt={post.name}
               className="ui avatar image"
-              src={"http://localhost:4000/" + post.imageAvatar}
+              src={"https://hooney.herokuapp.com/" + post.imageAvatar}
             />{" "}
             {post.name}
           </div>
           <div className="image">
             <img
               alt={post.name}
-              src={"http://localhost:4000/" + post.imagePost}
+              src={"https://hooney.herokuapp.com/" + post.imagePost}
             />
           </div>
           <div className="content">

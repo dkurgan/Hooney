@@ -3,14 +3,11 @@ const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const auth = require('../../middleware/auth');
-const config = require('config');
 //mailgun
 const mailgun = require("mailgun-js");
-<<<<<<< HEAD
 const DOMAIN = process.env.DOMAIN;
 const mg = mailgun({ apiKey: process.env.MAIL_KEY, domain: DOMAIN });
-=======
->>>>>>> 6960da59bc5f1b0feb98d58721ff9705f415d2a3
+
 const {
     check,
     validationResult
@@ -27,7 +24,7 @@ router.post('/', [
     async (req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return res.status(400).json({ errors: errors.array() });
+            return res.status(400).json({ msg: "Check your information" });
         }
         const { name, email, password } = req.body;
         try {
@@ -54,7 +51,7 @@ router.post('/', [
                 from: "Camagru no-reply <postmaster@sandbox97f0e9b8205e478481f7b9e2e5dae7d6.mailgun.org>",
                 to: email,
                 subject: "Confirmation",
-                html: `Click on the link to verify your account <a href="http://hooney.herokuapp.com//verify/${user.id}">Click</a>`
+                html: `Click on the link to verify your account <a href="https://hooney.herokuapp.com/#/verify/${user.id}">Click</a>`
             };
             mg.messages().send(data, (error, body) => {
                 console.log(body, "message sent");
@@ -62,7 +59,7 @@ router.post('/', [
             //Create Token for user
             jwt.sign(
                 payload,
-                config.get('jwtSecret'), {
+                process.env.jwtSecret, {
                 expiresIn: 3600000
             },
                 (err, token) => {
@@ -142,11 +139,12 @@ router.post('/reset', async(req, res)=>{
             from: "Camagru no-reply <postmaster@sandbox97f0e9b8205e478481f7b9e2e5dae7d6.mailgun.org>",
             to: email,
             subject: "Reset Password",
-            html: `Click on the link to verify your account <a href="http://localhost:3000/reset/${user.id}">Click</a>`
+            html: `Click on the link to reset your account <a href="https://hooney.herokuapp.com/#/reset/${user.id}">Click</a>`
         };
         mg.messages().send(data, (error, body)=> {
             console.log(body);
         });
+        res.json({ msg: "Please check your email" });
     } catch (error) {
         res.status(500).json({msg: "Server Error"})
     }
@@ -169,10 +167,4 @@ router.patch('/reset', async(req,res)=>{
     }
 })
 
-<<<<<<< HEAD
 module.exports = router;
-=======
-
-
-module.exports = router;
->>>>>>> 6960da59bc5f1b0feb98d58721ff9705f415d2a3

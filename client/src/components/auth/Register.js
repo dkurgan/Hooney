@@ -2,22 +2,21 @@ import React from 'react';
 import { connect } from 'react-redux';
 import {Link} from 'react-router-dom'
 import {Honey} from '../../img';
-import api from '../../api';
-import { registerUser } from '../../actions/user'
-
+import { regUser } from '../../actions/user'
+import Alert from '../layouts/Alert';
 
 class Register extends React.Component {
     state = { password: null, email: null, name: null }
     //Register user and set token
     handleSubmit = async (event) => {
         event.preventDefault(); //do no refresh on enter
-        const res = await api.post('/users', {
-            password: this.state.password,
-            email: this.state.email,
-            name: this.state.name
-        });
-        await this.props.registerUser(res.data.token);
-        window.location = '/';
+        await this.props.regUser(
+            this.state.email,
+            this.state.name,
+            this.state.password);
+        if (this.props.alert.length < 1) {
+            window.location = '/';
+        }
     }
     render() {
         return (
@@ -39,12 +38,13 @@ class Register extends React.Component {
                                 </div>
                                 <div className="row">
                                     <div className="input-field">
-                                        <input type="password" placeholder="Password"
+                                        <input type="password" placeholder="Password min 6 symbols"
                                             onChange={(e) => this.setState({ password: e.target.value })} />
                                     </div>
                                 </div>
                                 <button className='ui button' >Register</button>
                             </form>
+                            {alert ? <Alert /> : null}
                         </div>
                     </div>
                     <div>
@@ -57,7 +57,10 @@ class Register extends React.Component {
 }
 
 const mapStateToProps = state => {
-    return { token: state.user.token }
+    return {
+        token: state.user.token,
+        alert: state.alert
+    }
 }
 
-export default connect(mapStateToProps, { registerUser })(Register)
+export default connect(mapStateToProps, { regUser })(Register)

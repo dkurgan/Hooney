@@ -16,7 +16,7 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(express.json({ extended: false }));
 
-app.get('/', (req, res) => res.send('API Running'));
+// app.get('/', (req, res) => res.send('API Running'));
 
 //define routes
 app.use('/api/users', require('./routes/api/users'));
@@ -27,11 +27,11 @@ app.use('/uploads', express.static('uploads'));
 
 const PORT = process.env.PORT || 4000;
 
-//static assets in production
-// app.use(express.static(path.join(__dirname, 'client', 'build')));
-//     app.get("*", (req, res) => {
-//         res.sendFile(path.join(__dirname + "./client/build/index.html"));
-//         });
+// static assets in production
+app.use(express.static(path.join(__dirname, 'client', 'build')));
+    app.get("*", (req, res) => {
+        res.sendFile(path.join(__dirname + "./client/build/index.html"));
+        });
 
 
 app.listen(PORT, () => console.log(`Server strated on ${PORT}`));

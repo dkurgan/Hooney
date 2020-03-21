@@ -135,7 +135,7 @@ router.post('/comment/:id', auth, [
                     from: "Camagru no-reply <postmaster@sandbox97f0e9b8205e478481f7b9e2e5dae7d6.mailgun.org>",
                     to: user.email,
                     subject: "New comment",
-                    html: `You got new comment on this <a href="http://hooney.herokuapp.com/post/${req.params.id}">Post</a>`
+                    html: `You got new comment on this <a href="https://hooney.herokuapp.com/#/post/${req.params.id}">Post</a>`
                 };
                 mg.messages().send(data, (error, body) => {
                     console.log(body, "message sent");

@@ -2,14 +2,14 @@ import React from "react";
 import {connect} from 'react-redux';
 import {Honey} from '../../img';
 import { patchPassword } from '../../actions/user';
-
+import Alert from "../layouts/Alert";
 
 class PatchPassword extends React.Component {
     state =  {password: null}
     handleSubmit = async(e) => {
         e.preventDefault();
         await this.props.patchPassword(this.props.match.params.id,this.state.password);
-        window.location='/login';
+        window.location='/#/login';
     }
   render() {
     return ( this.props.isAuth ? <h1 style={{marginTop:150}}>Why are u here??))</h1> :
@@ -22,12 +22,13 @@ class PatchPassword extends React.Component {
               <form className="input-field" onSubmit={this.handleSubmit}>
                 <input
                   type="password"
-                  placeholder="New Password"
+                  placeholder="New Password min 6 symbols"
                   onChange={e => this.setState({ password: e.target.value })}
                   required
                 />
                 <button className="ui button">Reset</button>
               </form>
+              {alert ? <Alert /> : null}
             </div>
           </div>
         </div>
@@ -38,7 +39,8 @@ class PatchPassword extends React.Component {
 
 const mapStateToProps = state =>{
     return {
-        isAuth: state.user.token
+      isAuth: state.user.token,
+      alert: state.alert
     }
 }
 

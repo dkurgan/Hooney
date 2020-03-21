@@ -8,7 +8,6 @@ const initState = {
 
 const authReducer = (state = initState, action) => {
     const { type, token } = action;
-    console.log(token)
     switch (type) {
         case LOGIN_USER: {
             return { ...state, token, isAuthincated: true };

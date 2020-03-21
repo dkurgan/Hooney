@@ -49,10 +49,10 @@ class ItemCard extends React.Component{
                 <div key={item._id} className="ui centered card width">
                     <div className="content">
                         <div className="right floated meta"> <Moment fromNow>{item.date}</Moment></div>
-                            <img alt={item.name} className="ui avatar image"src={"http://localhost:4000/" + item.imageAvatar}/> {item.name}
+                            <img alt={item.name} className="ui avatar image"src={"https://hooney.herokuapp.com/" + item.imageAvatar}/> {item.name}
                     </div>
                         <div className="image">
-                            <img alt={item.name} src={"http://localhost:4000/" + item.imagePost} />
+                            <img alt={item.name} src={"https://hooney.herokuapp.com/" + item.imagePost} />
                     </div>
                     <div className="content">
                         <span className="right floated">
